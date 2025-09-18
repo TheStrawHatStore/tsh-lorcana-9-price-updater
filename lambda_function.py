@@ -41,9 +41,9 @@ def get_price(card):
 def find_card_metafiels(product):
   number, rarity = None, None
   for metafield in product["metafields"]["nodes"]:
-    if metafield["key"] == "custom.lorcana_card_number":
+    if metafield["key"] == "custom.number":
       number = metafield["value"]
-    if metafield["key"] == "custom.lorcana_card_rarity":
+    if metafield["key"] == "custom.rarity":
       rarity = metafield["value"]
   return {
     "number": number,
@@ -59,6 +59,8 @@ def manage_exceptions(key):
     return "One Last Hope (Epic) - 222/204 - Epic (Foil)"
   elif key == "I2I - 234/204 - Enchanted":
     return "I2I (Enchanted) - 234/204 - Enchanted"
+  elif key == "Mickey Mouse (Brave Little Prince) - 242/204 - Iconic":
+    return "Mickey Mouse (Brave Little Prince) - 242/204 - Iconic (Foil)"
   return key
 
 def lambda_handler(event, context):
@@ -74,7 +76,7 @@ def lambda_handler(event, context):
 
   with open("/tmp/price_updates.jsonl", 'w') as file:
     file_is_empty = True
-    products = shopify.get_products(306622758965, None)
+    products = shopify.get_products(307010764853, None)
     while True:
       for product in products["nodes"]:
         for variant in product["variants"]["nodes"]:
@@ -101,7 +103,7 @@ def lambda_handler(event, context):
             file_is_empty = False
             file.write("\n")
       if products["pageInfo"]["hasNextPage"]:
-        products = shopify.get_products(306622758965, products["pageInfo"]["endCursor"])
+        products = shopify.get_products(307010764853, products["pageInfo"]["endCursor"])
       else:
         break
     file.close()

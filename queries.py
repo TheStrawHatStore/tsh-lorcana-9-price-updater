@@ -5,7 +5,7 @@ get_products = '''
         id
         title
         handle
-        metafields(first: 10, keys: ["custom.lorcana_card_number", "custom.lorcana_card_rarity"]){
+        metafields(first: 10, keys: ["custom.number", "custom.rarity"]){
           nodes {
             id
             key
